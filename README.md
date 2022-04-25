@@ -102,7 +102,7 @@ $ $env:VAR_ENV = VALUE
 > 👉 **Start the APP**
 
 ```bash
-$ python run.py 
+$ python app.py 
 ```
 
 <br />
@@ -133,7 +133,7 @@ The project is coded with a simple and intuitive structure presented bellow:
    |-- CHAGELOG.md                               # Makefile (scripts)
    |-- SPECS.md                               # Makefile (scripts)
    |-- Makefile                               # Makefile (scripts)
-   |-- run.py                               # Start the app
+   |-- app.py                               # Start the app
    |
    |-- ************************************************************************
 ```
