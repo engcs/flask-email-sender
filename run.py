@@ -5,16 +5,24 @@ Copyright (c) 2022 - present
 
 from flask import Flask, render_template
 
-app = Flask(__name__, template_folder="apps/templates")
+app = Flask(__name__, template_folder='apps/templates')
 
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    title = 'Index'
+    return render_template('index.html', title=title)
+
+
+@app.route('/about')
+def about():
+    title = 'About'
+    return render_template('index.html', title=title)
+
 
 @app.route('/hello')
 def hello_world():
-    return '<p>Hello, World!</p>'
+    return render_template('index.html')
 
 
 if __name__ == '__main__':

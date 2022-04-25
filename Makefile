@@ -6,7 +6,7 @@ style:
 	pycodestyle run.py
 	pycodestyle ./apps
 
-lint:
+lint: style
 	pylint run.py
 	pylint ./apps
 
