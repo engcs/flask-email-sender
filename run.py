@@ -7,6 +7,8 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__, template_folder='apps/templates')
 
+subscribers = []
+
 
 @app.route('/')
 def index():
@@ -32,14 +34,18 @@ def subscribe():
     return render_template('subscribe.html', title=title)
 
 
-@app.route('/form', methods=["POST"])
+@app.route('/form', methods=['POST'])
 def form():
     title = 'Obrigado!'
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     email = request.form.get('email')
-    print(first_name, last_name, email)
-    return render_template('form.html', title=title)
+    subscribers.append(f'{first_name} {last_name} | {email}')
+    return render_template(
+        'form.html',
+        title=title,
+        subscribers=subscribers
+    )
 
 
 if __name__ == '__main__':

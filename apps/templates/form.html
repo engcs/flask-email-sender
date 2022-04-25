@@ -3,5 +3,13 @@
 <!-- Conteúdo -->
 <section class="container">
   <h1>Obrigado pela sua inscrição!</h1>
+  <small>Por favor, confirme os dados</small>
+  <ul>
+  {% for subscribe in subscribers %}
+    <li>
+      {{ subscribe }}
+    </li>
+  {% endfor %}
+  </ul>
 </section>
 {% endblock %}
