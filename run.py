@@ -17,12 +17,19 @@ def index():
 @app.route('/about')
 def about():
     title = 'About'
-    return render_template('index.html', title=title)
+    names = ['Python', 'Software', 'Hardware']
+    return render_template('about.html', title=title, names=names)
 
 
 @app.route('/hello')
 def hello_world():
-    return render_template('index.html')
+    return render_template('base.html')
+
+
+@app.route('/subscribe')
+def subscribe():
+    title = 'Subscribe'
+    return render_template('subscribe.html', title=title)
 
 
 if __name__ == '__main__':

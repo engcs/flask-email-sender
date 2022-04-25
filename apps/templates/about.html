@@ -3,5 +3,12 @@
 <!-- Conteúdo -->
 <section class="container-fluid">
   <p>Este site foi construido por Cristian Sousa, usando Flask</p>
+  <ul>
+    <p>
+    {% for name in names %}
+      <li>{{ name }}</li>
+    {% endfor %}
+    </p>
+  </ul>
 </section>
 {% endblock %}
