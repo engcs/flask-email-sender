@@ -40,6 +40,16 @@ def form():
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     email = request.form.get('email')
+    if not first_name or not last_name or not email:
+        error_statment = "Todos os capos são necessários..."
+        return render_template(
+            'fail.html',
+            title=title,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            error_statment=error_statment
+        )
     subscribers.append(f'{first_name} {last_name} | {email}')
     return render_template(
         'form.html',
