@@ -84,7 +84,7 @@ def update(id):
         sub_to_update.name = request.form['name']
         try:
             db.session.commit()
-            return redirect('/subs')
+            return redirect('/subscribers')
         except:
             return 'There was a problem updating that sub...'
     else:
