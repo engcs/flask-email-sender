@@ -2,8 +2,15 @@
 {% block content %}
 <!-- Conteúdo -->
 <section class="container">
-  <h1>Falhou!</h1>
-  <p>{{ error_statment }}</p>
+
+    <!-- Alerta -->
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Ops...</strong> {{ error_statment }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  <h1>Se inscreva!</h1>
+
   <form action="/form" method="POST">
     <div class="mb-3">
       <input type="text" class="form-control" id="InputFirstName" aria-describedby="firstName" placeholder="Nome" name="first_name" value="{{ first_name }}">

@@ -2,10 +2,14 @@
 """
 Copyright (c) 2022 - present
 """
+import os
+import smtplib
 
 from flask import Flask, render_template, request
 
-app = Flask(__name__, template_folder='apps/templates')
+app = Flask(
+    __name__, template_folder='apps/templates', static_folder='apps/static'
+)
 
 subscribers = []
 
@@ -40,22 +44,26 @@ def form():
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     email = request.form.get('email')
+
+    message = 'Voce foi inscrito!'
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(os.getenv('MY_EMAIL'), os.getenv('EMAIL_PASSWORD'))
+    server.sendmail(os.getenv('MY_EMAIL'), email, message)
+
     if not first_name or not last_name or not email:
-        error_statment = "Todos os capos são necessários..."
+        error_statment = 'Todos os capos são necessários...'
         return render_template(
             'fail.html',
             title=title,
             first_name=first_name,
             last_name=last_name,
             email=email,
-            error_statment=error_statment
+            error_statment=error_statment,
         )
+
     subscribers.append(f'{first_name} {last_name} | {email}')
-    return render_template(
-        'form.html',
-        title=title,
-        subscribers=subscribers
-    )
+    return render_template('form.html', title=title, subscribers=subscribers)
 
 
 if __name__ == '__main__':
