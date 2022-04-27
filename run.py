@@ -36,15 +36,14 @@ subscribers = []
 
 @app.route('/')
 def index():
-    title = 'Index'
-    return render_template('index.html', title=title)
+    return render_template('index.html')
 
 
 @app.route('/about')
 def about():
     title = 'About'
     names = ['Python', 'Software', 'Hardware']
-    return render_template('about.html', title=title, names=names)
+    return render_template('about.html', names=names)
 
 
 @app.route('/hello')
@@ -55,7 +54,7 @@ def hello_world():
 @app.route('/subscribe')
 def subscribe():
     title = 'Subscribe'
-    return render_template('subscribe.html', title=title)
+    return render_template('subscribe.html')
 
 
 @app.route('/subscribers', methods=['GET', 'POST'])
@@ -73,7 +72,7 @@ def subscribers():
             return 'There was a error adding your subs...'
     else:
         subs = Subscribers.query.order_by(Subscribers.date_created)
-        return render_template('subscribers.html', title=title, subs=subs)
+        return render_template('subscribers.html', subs=subs)
 
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
@@ -89,7 +88,23 @@ def update(id):
             return 'There was a problem updating that sub...'
     else:
         return render_template(
-            'update.html', title=title, sub_to_update=sub_to_update
+            'update.html', sub_to_update=sub_to_update
+        )
+
+
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+def delete(id):
+    sub_to_update = Subscribers.query.get_or_404(id)
+    if request.method == 'POST':
+        sub_to_update.name = request.form['name']
+        try:
+            db.session.commit()
+            return redirect('/subscribers')
+        except:
+            return 'There was a problem updating that sub...'
+    else:
+        return render_template(
+            'update.html', sub_to_update=sub_to_update
         )
 
 
@@ -118,7 +133,7 @@ def form():
         )
 
     subscribers.append(f'{first_name} {last_name} | {email}')
-    return render_template('form.html', title=title, subscribers=subscribers)
+    return render_template('form.html', subscribers=subscribers)
 
 
 if __name__ == '__main__':
