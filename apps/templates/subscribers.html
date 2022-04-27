@@ -12,7 +12,7 @@
   <ul>
     <p>
     {% for sub in subs %}
-      <li>{{ sub.name }}</li>
+      <li>{{ sub.name }} <a href="/update/{{ sub.id }}" class="btn btn-outline-secondary btn-sm">Update</a> </li>
     {% endfor %}
     </p>
   </ul>

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Conteúdo -->
+<section class="container-fluid">
+  <h1>Atualizar Lista</h1>
+  <br/>
+  <form action="/update/{{ sub_to_update.id }}" method="POST">
+    <input type="text" placeholder="Name" name="name" value="{{ sub_to_update.name }}">
+    <input type="submit" value="Update" class="btn btn-secondary btn-sm">
+  </form>
+  <br/>
+  <ul>
+    <p>
+    {% for sub in subs %}
+      <li>{{ sub.name }}</li>
+    {% endfor %}
+    </p>
+  </ul>
+
+</section>
+{% endblock %}

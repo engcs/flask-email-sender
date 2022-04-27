@@ -76,6 +76,23 @@ def subscribers():
         return render_template('subscribers.html', title=title, subs=subs)
 
 
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    title = 'Update'
+    sub_to_update = Subscribers.query.get_or_404(id)
+    if request.method == 'POST':
+        sub_to_update.name = request.form['name']
+        try:
+            db.session.commit()
+            return redirect('/subs')
+        except:
+            return 'There was a problem updating that sub...'
+    else:
+        return render_template(
+            'update.html', title=title, sub_to_update=sub_to_update
+        )
+
+
 @app.route('/form', methods=['POST'])
 def form():
     title = 'Obrigado!'
