@@ -87,25 +87,19 @@ def update(id):
         except:
             return 'There was a problem updating that sub...'
     else:
-        return render_template(
-            'update.html', sub_to_update=sub_to_update
-        )
+        return render_template('update.html', sub_to_update=sub_to_update)
 
 
-@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/delete/<int:id>')
 def delete(id):
-    sub_to_update = Subscribers.query.get_or_404(id)
-    if request.method == 'POST':
-        sub_to_update.name = request.form['name']
-        try:
-            db.session.commit()
-            return redirect('/subscribers')
-        except:
-            return 'There was a problem updating that sub...'
-    else:
-        return render_template(
-            'update.html', sub_to_update=sub_to_update
-        )
+    sub_to_delete = Subscribers.query.get_or_404(id)
+
+    try:
+        db.session.delete(sub_to_delete)
+        db.session.commit()
+        return redirect('/subscribers')
+    except:
+        return 'There was a problem deleting that sub'
 
 
 @app.route('/form', methods=['POST'])
