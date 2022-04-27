@@ -2,14 +2,34 @@
 """
 Copyright (c) 2022 - present
 """
+# Python core
 import os
 import smtplib
+from datetime import datetime
 
-from flask import Flask, render_template, request
+# 3d-party
+from flask import Flask, redirect, render_template, request
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(
     __name__, template_folder='apps/templates', static_folder='apps/static'
 )
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///subs.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Initizalize the database
+db = SQLAlchemy(app)
+
+
+# Create db model
+class Subscribers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Create a function to return a string when we add something
+    def __rep__(self):
+        return '<Name %r>' % self.id
+
 
 subscribers = []
 
@@ -36,6 +56,24 @@ def hello_world():
 def subscribe():
     title = 'Subscribe'
     return render_template('subscribe.html', title=title)
+
+
+@app.route('/subscribers', methods=['GET', 'POST'])
+def subscribers():
+    title = 'Subscribers'
+    if request.method == 'POST':
+        subs_name = request.form['name']
+        new_subs = Subscribers(name=subs_name)
+        # Push to database
+        try:
+            db.session.add(new_subs)
+            db.session.commit()
+            return redirect('/subscribers')
+        except:
+            return 'There was a error adding your subs...'
+    else:
+        subs = Subscribers.query.order_by(Subscribers.date_created)
+        return render_template('subscribers.html', title=title, subs=subs)
 
 
 @app.route('/form', methods=['POST'])

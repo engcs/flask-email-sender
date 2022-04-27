@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Conteúdo -->
+<section class="container-fluid">
+  <h1>Lista no banco de dados</h1>
+  <br/>
+  <form action="/subscribers" method="POST">
+    <input type="text" placeholder="Name" name="name">
+    <input type="submit" value="Add Name" class="btn btn-secondary">
+  </form>
+  <br/>
+  <ul>
+    <p>
+    {% for sub in subs %}
+      <li>{{ sub.name }}</li>
+    {% endfor %}
+    </p>
+  </ul>
+
+  <img src="static/img/elementor-logo.png">
+  <img src="static/img/elementor-notice-icon.svg" width="100">
+  <img src="static/img/go-pro.svg">
+
+</section>
+{% endblock %}
