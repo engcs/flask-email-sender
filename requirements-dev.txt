@@ -1,0 +1,4 @@
+blue==0.8.0
+prospector==1.7.7
+ipython==8.2.0
+isort==5.10.1
