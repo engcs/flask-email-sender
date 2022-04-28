@@ -23,7 +23,7 @@ class Subscribers(SQLModel, table=True):
         default_factory=datetime.utcnow, nullable=False
     )
 
-    @validator('name')
+    @validator('name', allow_reuse=True)
     def validate_valor(cls, v, field):
         if v == 'teste':
             raise RuntimeError(f'{field.name} must between 1 and 10')
@@ -39,63 +39,45 @@ app.engine = create_engine('sqlite:///subs.db')
 
 @app.route('/')
 def index():
-    return redirect('/subscribe')
+    return redirect('/subscribe-form')
 
 
 @app.route('/about')
 def about():
-    title = 'About'
     names = ['Python', 'Software', 'Hardware']
     return render_template('about.html', names=names)
 
 
-@app.route('/hello')
-def hello_world():
-    return render_template('base.html')
-
-
-@app.route('/subscribe')
+@app.route('/subscribe-form')
 def subscribe():
-    return render_template('subscribe.html')
-
-
-# @app.route('/', methods=['GET', 'POST'])
-# def create_post():
-#     # if request.method == "POST":
-#     #     name = request.form.get("name")
-#     #     with Session(app.engine) as session:
-#     #         session.add(Subscribers(name=name))
-#     #         session.commit()
-#     # return render_template("subscribers.html")
-#     with Session(app.engine) as session:
-#         sql = select(Subscribers)
-#         subscribers = session.exec(sql).fetchall()
-#     return render_template('subscribers.html', subscribers=subscribers)
+    return render_template('subscribe-form.html')
 
 
 @app.route('/signed', methods=['POST'])
 def signed():
-    if request.method == 'POST':
-        first_name = request.form.get('first_name')
-        last_name = request.form.get('last_name')
-        email = request.form.get('email')
-        try:
-            with Session(app.engine) as session:
-                new_subscriber = Subscribers(
-                    name=first_name, last_name=last_name, email=email
-                )
-                session.add(new_subscriber)
-                session.commit()
-                sql = select(Subscribers)
-                subscribers = session.exec(sql).fetchall()
-                return render_template('signed.html', subscribers=subscribers)
-        except Exception as e:
-            print(f'<<Exception>>: {e}')
-            return 'There was a error adding your subs...'
+
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    email = request.form.get('email')
+
+    try:
+        with Session(app.engine) as session:
+            new_subscriber = Subscribers(
+                name=first_name, last_name=last_name, email=email
+            )
+            session.add(new_subscriber)
+            session.commit()
+            sql = select(Subscribers)
+            subscribers = session.exec(sql).fetchall()
+            return render_template('signed.html', subscribers=subscribers)
+    except Exception as e:
+        print(f'<<Exception>>: {e}')
+        return 'There was a error adding your subs...'
 
 
-@app.route('/delete/<int:id>')
+@app.route('/delete/<int:id>', methods=['POST'])
 def delete(id: int):
+
     try:
         with Session(app.engine) as session:
             statement = select(Subscribers).where(Subscribers.id == id)
@@ -105,17 +87,19 @@ def delete(id: int):
             session.commit()
     except:
         return 'There was a error deleting your subs...'
+
     return redirect('/subscribers')
 
 
-@app.route('/update_form/<int:id>', methods=['GET'])
-def update(id: int):
+@app.route('/update-form/<int:id>', methods=['GET'])
+def update_form(id: int):
+
     with Session(app.engine) as session:
         statement = select(Subscribers).where(Subscribers.id == id)
         results = session.exec(statement)
         subscriber = results.one()
 
-    return render_template('update.html', subscriber=subscriber)
+    return render_template('update-form.html', subscriber=subscriber)
 
 
 @app.route('/update/<int:id>', methods=['POST'])

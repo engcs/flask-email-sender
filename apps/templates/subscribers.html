@@ -9,8 +9,8 @@
     <ul>
       <p>
       {% for subscriber in subscribers %}
-      <li>{{ subscriber.name }}
-      <a href="/update/{{ subscriber.id }}" class="btn btn-outline-secondary btn-sm">Update</a>
+      <li>{{ subscriber.name }} {{ subscriber.last_name }}
+      <a href="/update-form/{{ subscriber.id }}" class="btn btn-outline-secondary btn-sm">Update</a>
       <a href="/delete/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
       </li>
       {% endfor %}
