@@ -10,7 +10,6 @@ from typing import Optional
 
 # 3d-party
 from flask import Flask, redirect, render_template, request
-from flask_sqlalchemy import SQLAlchemy
 from pydantic import validator
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
@@ -70,19 +69,41 @@ def subscribe():
 
 @app.route('/signed', methods=['POST'])
 def signed():
-    first_name = request.form.get('first_name')
-    last_name = request.form.get('last_name')
-    email = request.form.get('email')
+    if request.method == 'POST':
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        email = request.form.get('email')
+        try:
+            with Session(app.engine) as session:
+                new_subscriber = Subscribers(
+                    name=first_name, last_name=last_name, email=email
+                )
+                session.add(new_subscriber)
+                session.commit()
+                sql = select(Subscribers)
+                subscribers = session.exec(sql).fetchall()
+                return render_template('signed.html', subscribers=subscribers)
+        except:
+            return 'There was a error adding your subs...'
 
+
+@app.route('/delete/<int:id>')
+def delete_hero(id: int):
     with Session(app.engine) as session:
-        subscriber = Subscribers(
-            name=first_name, last_name=last_name, email=email
-        )
-        session.add(subscriber)
+        subscriber = session.get(Subscribers, id)
+        if not subscriber:
+            raise 'O id não foi encontrado!'
+        session.delete(subscriber)
         session.commit()
+        return redirect('/subscribers')
+
+
+@app.route('/subscribers', methods=['GET'])
+def subscribers():
+    with Session(app.engine) as session:
         sql = select(Subscribers)
         subscribers = session.exec(sql).fetchall()
-        return render_template('signed.html', subscribers=subscribers,)
+        return render_template('subscribers.html', subscribers=subscribers)
 
 
 if __name__ == '__main__':
