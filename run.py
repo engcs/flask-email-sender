@@ -11,13 +11,15 @@ from typing import Optional
 # 3d-party
 from flask import Flask, redirect, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-from sqlmodel import Field, SQLModel, Session, create_engine, select
 from pydantic import validator
+from sqlmodel import Field, Session, SQLModel, create_engine, select
 
 
 class Subscribers(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True, index=True)
     name: str
+    last_name: str
+    email: str
     date_created: datetime = Field(
         default_factory=datetime.utcnow, nullable=False
     )
@@ -29,7 +31,8 @@ app = Flask(
 app.engine = create_engine('sqlite:///subs.db')
 # SQLModel.metadata.create_all(app.engine)
 
-@app.route("/", methods=["GET", "POST"])
+
+@app.route('/', methods=['GET', 'POST'])
 def create_post():
     # if request.method == "POST":
     #     name = request.form.get("name")
@@ -41,6 +44,23 @@ def create_post():
         sql = select(Subscribers)
         subscribers = session.exec(sql).fetchall()
     return render_template('subscribers.html', subscribers=subscribers)
+
+
+@app.route('/signed', methods=['POST'])
+def signed():
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    email = request.form.get('email')
+
+    with Session(app.engine) as session:
+        subscriber = Subscribers(
+            name=first_name, last_name=last_name, email=email
+        )
+        session.add(subscriber)
+        session.commit()
+        sql = select(Subscribers)
+        subscribers = session.exec(sql).fetchall()
+        return render_template('form.html', subscribers=subscribers)
 
 
 if __name__ == '__main__':
