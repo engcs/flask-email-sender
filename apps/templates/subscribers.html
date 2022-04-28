@@ -2,28 +2,26 @@
 {% block title %}Inscritos{% endblock%}
 {% block content %}
 <!-- Conteúdo -->
-<section class="container-fluid">
+<section class="container-fluid ">
   <h1>Lista no banco de dados</h1>
   <br/>
-  <form action="/subscribers" method="POST">
-    <input type="text" placeholder="Name" name="name">
-    <input type="submit" value="Add Name" class="btn btn-secondary">
-  </form>
-  <br/>
-  <ul>
-    <p>
-    {% for subscriber in subscribers %}
-    <li>{{ subscriber.name }}
-    <a href="/update/{{ subscriber.id }}" class="btn btn-outline-secondary btn-sm">Update</a>
-    <a href="/delete/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
-    </li>
-    {% endfor %}
-    </p>
-  </ul>
-
-  <img src="static/img/elementor-logo.png">
-  <img src="static/img/elementor-notice-icon.svg" width="100">
-  <img src="static/img/go-pro.svg">
+  <div class="col-md d-flex align-items-center justify-content-center">
+    <ul>
+      <p>
+      {% for subscriber in subscribers %}
+      <li>{{ subscriber.name }}
+      <a href="/update/{{ subscriber.id }}" class="btn btn-outline-secondary btn-sm">Update</a>
+      <a href="/delete/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
+      </li>
+      {% endfor %}
+      </p>
+    </ul>
+  </div>
+  <div class="col-md d-flex align-items-center justify-content-center">
+    <img src="static/img/elementor-logo.png">
+    <img src="static/img/elementor-notice-icon.svg" width="100">
+    <img src="static/img/go-pro.svg">
+  <div/>
 
 </section>
 {% endblock %}

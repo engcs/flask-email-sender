@@ -23,6 +23,12 @@ class Subscribers(SQLModel, table=True):
         default_factory=datetime.utcnow, nullable=False
     )
 
+    @validator('name')
+    def validate_valor(cls, v, field):
+        if v == 'teste':
+            raise RuntimeError(f'{field.name} must between 1 and 10')
+        return v
+
 
 app = Flask(
     __name__, template_folder='apps/templates', static_folder='apps/static'
@@ -83,7 +89,8 @@ def signed():
                 sql = select(Subscribers)
                 subscribers = session.exec(sql).fetchall()
                 return render_template('signed.html', subscribers=subscribers)
-        except:
+        except Exception as e:
+            print(f'<<Exception>>: {e}')
             return 'There was a error adding your subs...'
 
 
@@ -101,34 +108,36 @@ def delete(id: int):
     return redirect('/subscribers')
 
 
-@app.route('/update/<int:id>', methods=['GET'])
+@app.route('/update_form/<int:id>', methods=['GET'])
 def update(id: int):
     with Session(app.engine) as session:
         statement = select(Subscribers).where(Subscribers.id == id)
         results = session.exec(statement)
         subscriber = results.one()
+
     return render_template('update.html', subscriber=subscriber)
 
 
-@app.route('/update_id/<int:id>', methods=['POST'])
-def update_id(id: int):
-    if request.method == 'POST':
-        first_name = request.form.get('first_name')
-        last_name = request.form.get('last_name')
-        email = request.form.get('email')
+@app.route('/update/<int:id>', methods=['POST'])
+def update(id: int):
 
-        with Session(app.engine) as session:
-            statement = select(Subscribers).where(Subscribers.id == id)
-            results = session.exec(statement)
-            subscriber = results.one()
-            subscriber.name = first_name
-            subscriber.last_name = last_name
-            subscriber.email = email
-            session.add(subscriber)
-            session.commit()
-            session.refresh(subscriber)
-            print("Updated hero:", subscriber)
-        return redirect('/subscribers')
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    email = request.form.get('email')
+
+    with Session(app.engine) as session:
+        statement = select(Subscribers).where(Subscribers.id == id)
+        results = session.exec(statement)
+        subscriber = results.one()
+        subscriber.name = first_name
+        subscriber.last_name = last_name
+        subscriber.email = email
+        session.add(subscriber)
+        session.commit()
+        session.refresh(subscriber)
+        print('Updated subscriber:', subscriber)
+
+    return redirect('/subscribers')
 
 
 @app.route('/subscribers', methods=['GET'])
