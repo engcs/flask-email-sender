@@ -102,14 +102,13 @@ def update_form(id: int):
     return render_template('update-form.html', subscriber=subscriber)
 
 
-@app.route('/<id>')
+@app.route('/modal/<int:id>')
 def registro_pelo_id(id):
-    with Session(app.engine) as session:
-        statement = select(Subscribers).where(Subscribers.id == id)
-        results = session.exec(statement)
-        subscriber = results.one()
 
-    return render_template('about.html', subscriber=subscriber)
+    with Session(app.engine) as session:
+        sql = select(Subscribers)
+        subscribers = session.exec(sql).fetchall()
+        return render_template('modal.html', subscribers=subscribers, id=id)
 
 
 @app.route('/update/<int:id>', methods=['POST'])
