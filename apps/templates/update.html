@@ -2,21 +2,23 @@
 {% block title %}Atualizar{% endblock%}
 {% block content %}
 <!-- Conteúdo -->
-<section class="container-fluid">
-  <h1>Atualizar Lista</h1>
-  <br/>
-  <form action="/update/{{ sub_to_update.id }}" method="POST">
-    <input type="text" placeholder="Name" name="name" value="{{ sub_to_update.name }}">
-    <input type="submit" value="Update" class="btn btn-secondary btn-sm">
+<section class="container">
+  <h1>Atualizar inscrito</h1>
+  <br>
+  <form action="/update_id/{{ subscriber.id }}" method="POST">
+    <div class="mb-3">
+      <input type="text" class="form-control" id="InputFirstName" aria-describedby="firstName" placeholder="Nome" name="first_name" value="{{ subscriber.name }}">
+      <div id="firstNameHelp" class="form-text">Digite o seu primeiro nome.</div>
+    </div>
+    <div class="mb-3">
+      <input type="text" class="form-control" id="InputLastName" aria-describedby="lastName" placeholder="Sobrenome" name="last_name" value="{{ subscriber.last_name }}">
+      <div id="lastNameHelp" class="form-text">Digite o seu sobrenome nome.</div>
+    </div>
+    <div class="mb-3">
+      <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Endereço de e-mail" name="email" value="{{ subscriber.email }}">
+      <div id="emailHelp" class="form-text">Nós nunca compartilharemos o seu e-mail com terceiros.</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Atualizar</button>
   </form>
-  <br/>
-  <ul>
-    <p>
-    {% for sub in subs %}
-      <li>{{ sub.name }}</li>
-    {% endfor %}
-    </p>
-  </ul>
-
 </section>
 {% endblock %}

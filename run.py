@@ -88,13 +88,46 @@ def signed():
 
 
 @app.route('/delete/<int:id>')
-def delete_hero(id: int):
+def delete(id: int):
+    try:
+        with Session(app.engine) as session:
+            statement = select(Subscribers).where(Subscribers.id == id)
+            results = session.exec(statement)
+            subscriber = results.one()
+            session.delete(subscriber)
+            session.commit()
+    except:
+        return 'There was a error deleting your subs...'
+    return redirect('/subscribers')
+
+
+@app.route('/update/<int:id>', methods=['GET'])
+def update(id: int):
     with Session(app.engine) as session:
-        subscriber = session.get(Subscribers, id)
-        if not subscriber:
-            raise 'O id não foi encontrado!'
-        session.delete(subscriber)
-        session.commit()
+        statement = select(Subscribers).where(Subscribers.id == id)
+        results = session.exec(statement)
+        subscriber = results.one()
+    return render_template('update.html', subscriber=subscriber)
+
+
+@app.route('/update_id/<int:id>', methods=['POST'])
+def update_id(id: int):
+    if request.method == 'POST':
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        email = request.form.get('email')
+
+        with Session(app.engine) as session:
+            statement = select(Subscribers).where(Subscribers.id == id)
+            results = session.exec(statement)
+            subscriber = results.one()
+            subscriber.name = first_name
+            subscriber.last_name = last_name
+            subscriber.email = email
+            session.add(subscriber)
+            session.commit()
+            session.refresh(subscriber)
+            print("Updated hero:", subscriber)
         return redirect('/subscribers')
 
 
