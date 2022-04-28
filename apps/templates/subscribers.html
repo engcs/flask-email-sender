@@ -12,10 +12,10 @@
   <br/>
   <ul>
     <p>
-    {% for sub in subs %}
-    <li>{{ sub.name }}
-    <a href="/update/{{ sub.id }}" class="btn btn-outline-secondary btn-sm">Update</a>
-    <a href="/delete/{{ sub.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
+    {% for subscriber in subscribers %}
+    <li>{{ subscriber.name }}
+    <a href="/update/{{ subscriber.id }}" class="btn btn-outline-secondary btn-sm">Update</a>
+    <a href="/delete/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
     </li>
     {% endfor %}
     </p>

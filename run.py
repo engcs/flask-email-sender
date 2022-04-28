@@ -27,7 +27,7 @@ app = Flask(
     __name__, template_folder='apps/templates', static_folder='apps/static'
 )
 app.engine = create_engine('sqlite:///subs.db')
-
+# SQLModel.metadata.create_all(app.engine)
 
 @app.route("/", methods=["GET", "POST"])
 def create_post():
@@ -40,7 +40,7 @@ def create_post():
     with Session(app.engine) as session:
         sql = select(Subscribers)
         subscribers = session.exec(sql).fetchall()
-    return str(subscribers)
+    return render_template('subscribers.html', subscribers=subscribers)
 
 
 if __name__ == '__main__':
