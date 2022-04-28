@@ -32,18 +32,40 @@ app.engine = create_engine('sqlite:///subs.db')
 # SQLModel.metadata.create_all(app.engine)
 
 
-@app.route('/', methods=['GET', 'POST'])
-def create_post():
-    # if request.method == "POST":
-    #     name = request.form.get("name")
-    #     with Session(app.engine) as session:
-    #         session.add(Subscribers(name=name))
-    #         session.commit()
-    # return render_template("subscribers.html")
-    with Session(app.engine) as session:
-        sql = select(Subscribers)
-        subscribers = session.exec(sql).fetchall()
-    return render_template('subscribers.html', subscribers=subscribers)
+@app.route('/')
+def index():
+    return redirect('/subscribe')
+
+
+@app.route('/about')
+def about():
+    title = 'About'
+    names = ['Python', 'Software', 'Hardware']
+    return render_template('about.html', names=names)
+
+
+@app.route('/hello')
+def hello_world():
+    return render_template('base.html')
+
+
+@app.route('/subscribe')
+def subscribe():
+    return render_template('subscribe.html')
+
+
+# @app.route('/', methods=['GET', 'POST'])
+# def create_post():
+#     # if request.method == "POST":
+#     #     name = request.form.get("name")
+#     #     with Session(app.engine) as session:
+#     #         session.add(Subscribers(name=name))
+#     #         session.commit()
+#     # return render_template("subscribers.html")
+#     with Session(app.engine) as session:
+#         sql = select(Subscribers)
+#         subscribers = session.exec(sql).fetchall()
+#     return render_template('subscribers.html', subscribers=subscribers)
 
 
 @app.route('/signed', methods=['POST'])
@@ -60,7 +82,7 @@ def signed():
         session.commit()
         sql = select(Subscribers)
         subscribers = session.exec(sql).fetchall()
-        return render_template('form.html', subscribers=subscribers)
+        return render_template('signed.html', subscribers=subscribers,)
 
 
 if __name__ == '__main__':
