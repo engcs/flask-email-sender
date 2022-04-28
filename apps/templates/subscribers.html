@@ -2,26 +2,69 @@
 {% block title %}Inscritos{% endblock%}
 {% block content %}
 <!-- Conteúdo -->
-<section class="container-fluid ">
+<section class="container ">
   <h1>Lista no banco de dados</h1>
   <br/>
   <div class="col-md d-flex align-items-center justify-content-center">
-    <ul>
-      <p>
-      {% for subscriber in subscribers %}
-      <li>{{ subscriber.name }} {{ subscriber.last_name }}
-      <a href="/update-form/{{ subscriber.id }}" class="btn btn-outline-secondary btn-sm">Update</a>
-      <a href="/delete/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
-      </li>
-      {% endfor %}
-      </p>
-    </ul>
+
+    <table class="table">
+
+      <thead>
+        <tr>
+          <th scope="col" >Id</th>
+          <th scope="col" >Nome</th>
+          <th scope="col" >Sobrenome</th>
+          <th scope="col" >Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for subscriber in subscribers %}
+        <tr>
+          <th scope="row">{{ subscriber.id }}</th>
+          <td>{{ subscriber.name }}</td>
+          <td>{{ subscriber.last_name }}</td>
+          <td>
+            <a href="/update-form/{{ subscriber.id }}" class="btn btn-outline-primary btn-sm">Update</a>
+            <a href="/delete/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
+            <a href="/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</a>
+            <span class="example" data-bs-toggle="modal" data-bs-target="#exampleModal"> <a href="/about">Testing</a> </span>
+          <td/>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
   </div>
+
   <div class="col-md d-flex align-items-center justify-content-center">
     <img src="static/img/elementor-logo.png">
     <img src="static/img/elementor-notice-icon.svg" width="100">
     <img src="static/img/go-pro.svg">
-  <div/>
+  </div>
+
+  <!-- Modal -->
+
+  <section>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Você tem certeza que deseja deletar esse registro?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a href="$" class="btn btn-danger btn-mb">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
 </section>
 {% endblock %}

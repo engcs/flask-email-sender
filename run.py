@@ -75,7 +75,7 @@ def signed():
         return 'There was a error adding your subs...'
 
 
-@app.route('/delete/<int:id>', methods=['POST'])
+@app.route('/delete/<int:id>', methods=['GET'])
 def delete(id: int):
 
     try:
@@ -100,6 +100,16 @@ def update_form(id: int):
         subscriber = results.one()
 
     return render_template('update-form.html', subscriber=subscriber)
+
+
+@app.route('/<id>')
+def registro_pelo_id(id):
+    with Session(app.engine) as session:
+        statement = select(Subscribers).where(Subscribers.id == id)
+        results = session.exec(statement)
+        subscriber = results.one()
+
+    return render_template('about.html', subscriber=subscriber)
 
 
 @app.route('/update/<int:id>', methods=['POST'])
