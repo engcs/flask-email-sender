@@ -14,6 +14,7 @@
           <th scope="col" >Id</th>
           <th scope="col" >Nome</th>
           <th scope="col" >Sobrenome</th>
+          <th scope="col" >Email</th>
           <th scope="col" >Ações</th>
         </tr>
       </thead>
@@ -24,11 +25,13 @@
           <th scope="row">{{ subscriber.id }}</th>
           <td>{{ subscriber.name }}</td>
           <td>{{ subscriber.last_name }}</td>
+          <td>{{ subscriber.email }}</td>
           <td>
             <a href="/update-form/{{ subscriber.id }}" class="btn btn-outline-primary btn-sm">Update</a>
             <a href="/delete/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
             <a href="/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</a>
             <a href="/modal/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm">Modal</a>
+            <a href="#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{ subscriber.id }}">Log</a>
           <td/>
         </tr>
         {% endfor %}
@@ -43,8 +46,44 @@
     <img src="static/img/go-pro.svg">
   </div>
 
+  {% block modal %}
+  <!-- Modal -->
+  <section>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Você tem certeza que deseja deletar esse registro?
+            <input type="text" name="meu_id" id="meu_id" value="">
+            <input type="button" onclick="funcao1()" value="Exibir Alert" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a href="/delete/{{ id }}" class="btn btn-danger btn-mb">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $("#exampleModal").on("show.bs.modal", function (event) {
+        var button = $(event.relatedTarget);
+        var recipientId = button.data("id");
+        console.log(recipientId);
+        var modal = $(this);
+        modal.find("#meu_id").val(recipientId);
+      })
+    </script>
+  </section>
+  {% endblock %}
 
-  {% block modal %}{% endblock %}
+  {% block script %}
+
+  {% endblock %}
 
 </section>
 {% endblock %}
