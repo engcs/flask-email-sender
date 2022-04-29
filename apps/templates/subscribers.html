@@ -70,12 +70,14 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-      $("#exampleModal").on("show.bs.modal", function (event) {
-        var button = $(event.relatedTarget);
-        var recipientId = button.data("id");
-        console.log(recipientId);
-        var modal = $(this);
-        modal.find("#meu_id").val(recipientId);
+      var exampleModal = document.getElementById('exampleModal')
+      exampleModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget
+        var recipient = button.getAttribute('data-id')
+        var modalTitle = exampleModal.querySelector('.modal-title')
+        var modalBodyInput = exampleModal.querySelector('#meu_id')
+        modalTitle.textContent = 'New message to ' + recipient
+        modalBodyInput.value = recipient
       })
     </script>
   </section>
