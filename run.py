@@ -9,7 +9,7 @@ from datetime import datetime
 from typing import Optional
 
 # 3d-party
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, flash
 from pydantic import validator
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
@@ -39,7 +39,7 @@ app.engine = create_engine('sqlite:///subs.db')
 
 @app.route('/')
 def index():
-    return redirect('/subscribe-form')
+    return render_template('index.html')
 
 
 @app.route('/about')

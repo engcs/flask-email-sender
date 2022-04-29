@@ -1,10 +1,19 @@
 {% extends "base.html" %}
+{% block style %}{% endblock%}
 {% block title %}Inscritos{% endblock%}
 {% block content %}
 <!-- Conteúdo -->
 <section class="container ">
+
   <h1>Lista no banco de dados</h1>
   <br/>
+
+  <a href="/subscribe-form" class="btn btn-outline-success btn-sm">Inscrição</a>
+
+  <button value="showAlert" onclick="showAlert();"> Show Alert</button>
+
+  <div id="barra_de_alerta"></div>
+
   <div class="col-md d-flex align-items-center justify-content-center">
 
     <table class="table">
@@ -28,7 +37,7 @@
           <td>{{ subscriber.email }}</td>
           <td>
             <a href="/update-form/{{ subscriber.id }}" class="btn btn-outline-primary btn-sm">Update</a>
-            <a href="/#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{ subscriber.id }}">Delete</a>
+            <a href="/delete/#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{ subscriber.id }}">Delete</a>
           <td/>
         </tr>
         {% endfor %}
@@ -64,21 +73,31 @@
         </div>
       </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-      var exampleModal = document.getElementById('exampleModal')
-      exampleModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget
-        var recipient = button.getAttribute('data-id')
-        var modalTitle = exampleModal.querySelector('.modal-title')
-        var modalBodyInput = exampleModal.querySelector('#meu_id')
-        modalTitle.textContent = 'Deletar registro ' + recipient
-        modalBodyInput.value = recipient
-        var btn = document.getElementById('btn-delete')
-        btn.href = '/delete/' + recipient
-      })
-    </script>
+
   </section>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+  <script>
+    function showAlert(){
+      $("#barra_de_alerta").append("<div class='alert alert-warning alert-dismissible fade show' role='alert' id='myAlert'> <strong>Holy guacamole!</strong> <span id='myAlert2'> You should check in on some of those fields below. </span> <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button> </div>");
+    }
+  </script>
+
+  <script type="text/javascript">
+    var exampleModal = document.getElementById('exampleModal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget
+      var recipient = button.getAttribute('data-id')
+      var modalTitle = exampleModal.querySelector('.modal-title')
+      var modalBodyInput = exampleModal.querySelector('#meu_id')
+      modalTitle.textContent = 'Deletar registro ' + recipient
+      modalBodyInput.value = recipient
+      var btn = document.getElementById('btn-delete')
+      btn.href = '/delete/' + recipient
+    })
+  </script>
+
   {% endblock %}
 
   {% block script %}
