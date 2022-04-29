@@ -28,10 +28,7 @@
           <td>{{ subscriber.email }}</td>
           <td>
             <a href="/update-form/{{ subscriber.id }}" class="btn btn-outline-primary btn-sm">Update</a>
-            <a href="/delete/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
-            <a href="/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</a>
-            <a href="/modal/{{ subscriber.id }}" class="btn btn-outline-danger btn-sm">Modal</a>
-            <a href="#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{ subscriber.id }}">Log</a>
+            <a href="/#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{ subscriber.id }}">Delete</a>
           <td/>
         </tr>
         {% endfor %}
@@ -58,12 +55,11 @@
           </div>
           <div class="modal-body">
             Você tem certeza que deseja deletar esse registro?
-            <input type="text" name="meu_id" id="meu_id" value="">
-            <input type="button" onclick="funcao1()" value="Exibir Alert" />
+            <input type="hidden" name="meu_id" id="meu_id" value="">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <a href="/delete/{{ id }}" class="btn btn-danger btn-mb">Delete</a>
+            <a href="/delete/{{ id }}" class="btn btn-danger btn-mb" name="btn-delete" id="btn-delete">Delete</a>
           </div>
         </div>
       </div>
@@ -76,8 +72,10 @@
         var recipient = button.getAttribute('data-id')
         var modalTitle = exampleModal.querySelector('.modal-title')
         var modalBodyInput = exampleModal.querySelector('#meu_id')
-        modalTitle.textContent = 'New message to ' + recipient
+        modalTitle.textContent = 'Deletar registro ' + recipient
         modalBodyInput.value = recipient
+        var btn = document.getElementById('btn-delete')
+        btn.href = '/delete/' + recipient
       })
     </script>
   </section>
