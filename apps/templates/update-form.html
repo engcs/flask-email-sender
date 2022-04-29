@@ -6,6 +6,7 @@
   <h1>Atualizar inscrito</h1>
   <br>
   <form action="/update/{{ subscriber.id }}" method="POST">
+    <input type="hidden" name="_method" value="PUT">
     <div class="mb-3">
       <input type="text" class="form-control" id="InputFirstName" aria-describedby="firstName" placeholder="Nome" name="first_name" value="{{ subscriber.name }}">
       <div id="firstNameHelp" class="form-text">Digite o seu primeiro nome.</div>

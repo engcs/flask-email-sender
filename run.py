@@ -114,6 +114,7 @@ def registro_pelo_id(id):
 @app.route('/update/<int:id>', methods=['POST'])
 def update(id: int):
 
+    print(request.form.get('_method'))
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     email = request.form.get('email')
