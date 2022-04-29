@@ -80,7 +80,15 @@
 
   <script>
     function showAlert(){
-      $("#barra_de_alerta").append("<div class='alert alert-warning alert-dismissible fade show' role='alert' id='myAlert'> <strong>Holy guacamole!</strong> <span id='myAlert2'> You should check in on some of those fields below. </span> <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button> </div>");
+      $("#barra_de_alerta").append(`
+      <div class="alert alert-warning alert-dismissible fade show" style="display" role="alert" id="myAlert">
+          <strong>Holy guacamole!</strong>
+            <span id="myAlert2">
+              You should check in on some of those fields below.
+            </span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      `);
     }
   </script>
 
