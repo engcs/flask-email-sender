@@ -38,7 +38,7 @@
           <td>
             <a href="/update-form/{{ subscriber.id }}" class="btn btn-outline-primary btn-sm">Update</a>
             <a href="/delete/#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{ subscriber.id }}">Delete</a>
-          <td/>
+          </td>
         </tr>
         {% endfor %}
       </tbody>
@@ -81,14 +81,21 @@
   <script>
     function showAlert(){
       $("#barra_de_alerta").append(`
-      <div class="alert alert-warning alert-dismissible fade show" style="display" role="alert" id="myAlert">
-          <strong>Holy guacamole!</strong>
-            <span id="myAlert2">
-              You should check in on some of those fields below.
-            </span>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
+        <div class="alert alert-warning alert-dismissible teste fade show" style="display:show" role="alert" id="myAlert">
+            <strong>Holy guacamole!</strong>
+              <span id="myAlert2">
+                You should check in on some of those fields below.
+              </span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
       `);
+      $.each($('.teste'), function(index, element) {
+       (function(that, i) {
+            var t = setTimeout(function() {
+                element.setAttribute('style', 'display:none');
+            }, 3000);
+        })(this, index);
+      });
     }
   </script>
 

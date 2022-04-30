@@ -9,7 +9,7 @@ from datetime import datetime
 from typing import Optional
 
 # 3d-party
-from flask import Flask, redirect, render_template, request, flash
+from flask import Flask, flash, redirect, render_template, request
 from pydantic import validator
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
