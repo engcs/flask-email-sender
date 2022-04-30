@@ -47,9 +47,9 @@
   </div>
 
   <div class="col-md d-flex align-items-center justify-content-center">
-    <img src="static/img/elementor-logo.png">
-    <img src="static/img/elementor-notice-icon.svg" width="100">
-    <img src="static/img/go-pro.svg">
+      <img src="{{ url_for('static', filename='img/elementor-logo.png') }}">
+      <img src="{{ url_for('static', filename='img/elementor-notice-icon.svg') }}" width="100">
+      <img src="{{ url_for('static', filename='img/go-pro.svg') }}">
   </div>
 
   {% block modal %}
@@ -90,12 +90,13 @@
         </div>
       `);
       $.each($('.teste'), function(index, element) {
-       (function(that, i) {
-            var t = setTimeout(function() {
-                element.setAttribute('style', 'display:none');
-            }, 3000);
-        })(this, index);
+        var t = setTimeout(function() {
+            element.setAttribute('style', 'display:none');
+            //$(".alert").alert('close');
+            console.log(getAllMethods(element))
+        }, 3000);
       });
+
     }
   </script>
 

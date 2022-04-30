@@ -16,9 +16,9 @@
     <div/>
   <div/>
 
-  <img src="static/img/elementor-logo.png">
-  <img src="static/img/elementor-notice-icon.svg" width="100">
-  <img src="static/img/go-pro.svg">
+  <img src="{{ url_for('static', filename='img/elementor-logo.png') }}">
+  <img src="{{ url_for('static', filename='img/elementor-notice-icon.svg') }}" width="100">
+  <img src="{{ url_for('static', filename='img/go-pro.svg') }}">
 
 </section>
 {% endblock %}
