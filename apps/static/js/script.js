@@ -10,9 +10,9 @@ function showAlert(){
   `);
   $.each($('.teste'), function(index, element) {
     var t = setTimeout(function() {
-        element.setAttribute('style', 'display:none');
+        //element.setAttribute('style', 'display:none');
         //$(".alert").alert('close');
-        console.log(getAllMethods(element))
+        $(element).fadeOut("fast")
     }, 3000);
   });
 

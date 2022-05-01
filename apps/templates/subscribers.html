@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% block style %}{% endblock%}
-{% block title %}Inscritos{% endblock%}
+{% block style %}{% endblock style%}
+{% block title %}Inscritos{% endblock title%}
+
 {% block content %}
 <!-- Conteúdo -->
 <section class="container ">
@@ -10,7 +11,9 @@
 
   <a href="/subscribe-form" class="btn btn-outline-success btn-sm">Inscrição</a>
 
-  <button value="showAlert" onclick="showAlert();"> Show Alert</button>
+  <button value="showAlert" onclick="chamar_alert();"> Show Alert</button>
+
+  <button value="showAlert" onclick="funcao();"> Show Teste</button>
 
   <div id="barra_de_alerta"></div>
 
@@ -52,7 +55,6 @@
       <img src="{{ url_for('static', filename='img/go-pro.svg') }}">
   </div>
 
-  {% block modal %}
   <!-- Modal -->
   <section>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -80,11 +82,13 @@
 
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-  {% endblock %}
+  <script>
+    function chamar_alert(){
+      showAlert();
+    }
+  </script>
 
-  {% block script %}
-
-  {% endblock %}
+  {% block script %}{% endblock %}
 
 </section>
-{% endblock %}
+{% endblock content %}
