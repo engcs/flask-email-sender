@@ -6,14 +6,20 @@
 <!-- Conteúdo -->
 <section class="container ">
 
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
   <h1>Lista no banco de dados</h1>
   <br/>
 
   <a href="/subscribe-form" class="btn btn-outline-success btn-sm">Inscrição</a>
-
-  <button value="showAlert" onclick="chamar_alert();"> Show Alert</button>
-
-  <button value="showTeste" onclick="funcao();"> Show Teste</button>
 
   <div id="barra_de_alerta"></div>
 

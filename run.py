@@ -9,7 +9,7 @@ from datetime import datetime
 from typing import Optional
 
 # 3d-party
-from flask import Flask, flash, redirect, render_template, request
+from flask import Flask, flash, redirect, render_template, request, url_for
 from pydantic import validator
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
@@ -33,6 +33,7 @@ class Subscribers(SQLModel, table=True):
 app = Flask(
     __name__, template_folder='apps/templates', static_folder='apps/static'
 )
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.engine = create_engine('sqlite:///subs.db')
 # SQLModel.metadata.create_all(app.engine)
 
@@ -131,6 +132,7 @@ def update(id: int):
         session.refresh(subscriber)
         print('Updated subscriber:', subscriber)
 
+    flash('You were successfully logged in')
     return redirect('/subscribers')
 
 
