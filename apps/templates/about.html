@@ -2,23 +2,24 @@
 {% block title %}Sobre{% endblock%}
 {% block content %}
 <!-- Conteúdo -->
-<section class="container h-100">
+<section class="container">
+
+  <h1>Sobre</h1>
+
   <div class="row justify-content-center align-self-center">
-    <div class="col-6 mx-auto">
+    <div class="col-8 mx-auto">
       <p>Este site foi construido por Cristian Sousa, usando Flask</p>
       <ul>
-        <p>
-        {% for name in names %}
-          <li>{{ name }}</li>
-        {% endfor %}
-        </p>
+        <li> <a href="https://github.com/engcs">Github</a>  </li>
       </ul>
-    <div/>
-  <div/>
-
-  <img src="{{ url_for('static', filename='img/elementor-logo.png') }}">
-  <img src="{{ url_for('static', filename='img/elementor-notice-icon.svg') }}" width="100">
-  <img src="{{ url_for('static', filename='img/go-pro.svg') }}">
+    </div>
+  </div>
+  </br>
+  <div class="row justify-content-center align-self-center mx-auto">
+    <div class="col-6 mx-auto">
+      <img src="{{ url_for('static', filename='img/Flask_logo.svg') }}">
+    </div>
+  </div>
 
 </section>
 {% endblock %}
