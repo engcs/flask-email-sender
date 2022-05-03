@@ -7,6 +7,7 @@ import os
 import smtplib
 from datetime import datetime
 from typing import Optional
+import json
 
 # 3d-party
 from flask import (
@@ -16,7 +17,7 @@ from flask import (
     render_template,
     request,
     session,
-    url_for,
+    jsonify,
 )
 from pydantic import validator
 from sqlmodel import Field, Session, SQLModel, create_engine, select
@@ -139,8 +140,8 @@ def update(id: int):
         db_session.commit()
         db_session.refresh(subscriber)
         print('Updated subscriber:', subscriber)
-        flash(f'Updated subscriber', 'success')
-        session['message'] = 'meu teste'
+        flash(f'Registro atualizado com sucesso!', 'success')
+        # session['message'] = 'meu teste'
         # session.modified = True
 
     return redirect('/subscribers')
@@ -148,15 +149,11 @@ def update(id: int):
 
 @app.route('/subscribers', methods=['GET'])
 def subscribers():
-    message = ""
-    if 'message' in session:
-        message = session['message']
     with Session(app.engine) as db_session:
         sql = select(Subscribers)
         subscribers = db_session.exec(sql).fetchall()
         return render_template(
-            'subscribers.html', subscribers=subscribers, message=message
-        )
+            'subscribers.html', subscribers=subscribers)
 
 
 if __name__ == '__main__':

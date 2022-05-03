@@ -7,6 +7,7 @@
 <!-- CONTENT -->
 <section class="container ">
 
+  {{ message }}
   <div id="liveAlertPlaceholder"></div>
 
   <h1>Lista no banco de dados</h1>
@@ -60,13 +61,14 @@
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     {% for category, message in messages %}
-      {% if subscriber %}
-        <script>
-        document.addEventListener("DOMContentLoaded", function() {
-          bAlert("{{ subscriber.name }}", "{{ category }}")
-        });
-        </script>
-      {% endif %}
+      <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var my_alert = bAlert("{{ message }}", "{{ category }}")
+        setTimeout(()=>{
+          my_alert.close()
+        }, 3000)
+      });
+      </script>
     {% endfor %}
   {% endif %}
 {% endwith %}
