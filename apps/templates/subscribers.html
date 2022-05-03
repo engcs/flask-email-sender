@@ -37,6 +37,7 @@
           <td>{{ subscriber.email }}</td>
           <td>
 
+            <a href="/view/#" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal" data-id="{{ subscriber.id }}" data-name="{{ subscriber.name }}" data-last-name="{{ subscriber.last_name }}"  data-email="{{ subscriber.email }}">View</a>
             <a href="/update/#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateModal" data-id="{{ subscriber.id }}" data-name="{{ subscriber.name }}" data-last-name="{{ subscriber.last_name }}"  data-email="{{ subscriber.email }}">Update</a>
             <a href="/delete/#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ subscriber.id }}">Delete</a>
           </td>
@@ -100,6 +101,7 @@
               </div>
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="submit" class="btn btn-primary">Inscrever</button>
           </div>
         </div>
@@ -135,10 +137,43 @@
             </div>
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="submit" class="btn btn-primary">Atualizar</button>
           </div>
         </div>
       </form>
+    </div>
+  </div>
+</section>
+
+<!-- Visualizar -->
+<section>
+  <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" >Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h1>Atualizar inscrito</h1>
+          <div class="mb-3">
+            <input type="text" class="form-control" aria-describedby="firstName" placeholder="Nome" name="first-name" value="1">
+            <div class="form-text">Digite o seu primeiro nome.</div>
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" aria-describedby="lastName" placeholder="Sobrenome" name="last-name" value="1">
+            <div class="form-text">Digite o seu sobrenome nome.</div>
+          </div>
+          <div class="mb-3">
+            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Endereço de e-mail" name="email" value="1">
+            <div class="form-text">Nós nunca compartilharemos o seu e-mail com terceiros.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -226,6 +261,34 @@
     modalEmailInput.value = email
 
     form.action = '/update/' + id
+
+  })
+
+</script>
+
+<!-- SCRIPT VIEW -->
+<script type="text/javascript">
+
+  var viewModal = document.getElementById('viewModal')
+  viewModal.addEventListener('show.bs.modal', function (event) {
+
+    let button = event.relatedTarget
+    let id = button.getAttribute('data-id')
+    let name = button.getAttribute('data-name')
+    let last_name = button.getAttribute('data-last-name')
+    let email = button.getAttribute('data-email')
+
+    let modalTitle = viewModal.querySelector('.modal-title')
+    modalTitle.textContent = 'Atualizar registro ' + id
+
+    let modalNameInput = viewModal.querySelector('[name="first-name"]')
+    let modalLastNameInput = viewModal.querySelector('[name="last-name"]')
+    let modalEmailInput = viewModal.querySelector('[name="email"]')
+    let btn_update = viewModal.querySelector('[name="btn-update"]')
+
+    modalNameInput.value = name
+    modalLastNameInput.value = last_name
+    modalEmailInput.value = email
 
   })
 
