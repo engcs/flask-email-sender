@@ -14,8 +14,6 @@
 
   <a href="" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#subscribeModal">Inscrição</a>
 
-  <div id="barra_de_alerta"></div>
-
   <div class="col-md d-flex align-items-center justify-content-center">
 
     <table class="table">
@@ -38,8 +36,9 @@
           <td>{{ subscriber.last_name }}</td>
           <td>{{ subscriber.email }}</td>
           <td>
-            <a href="/update-form/{{ subscriber.id }}" class="btn btn-outline-primary btn-sm">Update</a>
-            <a href="/delete/#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{ subscriber.id }}">Delete</a>
+
+            <a href="/update/#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateModal" data-id="{{ subscriber.id }}" data-name="{{ subscriber.name }}" data-last-name="{{ subscriber.last_name }}"  data-email="{{ subscriber.email }}">Update</a>
+            <a href="/delete/#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ subscriber.id }}">Delete</a>
           </td>
         </tr>
         {% endfor %}
@@ -73,59 +72,94 @@
 {% endwith %}
 
 <!-- MODALS -->
-<!-- Delete -->
-<section>
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Você tem certeza que deseja deletar esse registro?
-          <input type="hidden" name="meu_id" id="meu_id" value="">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <a href="/delete/{{ id }}" class="btn btn-danger btn-mb" name="btn-delete" id="btn-delete">Delete</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Delete -->
+<!-- Inscrição -->
 <section>
   <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <form action="/signing" method="POST">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalToggleLabel">Modal 1</h5>
+            <h5 class="modal-title">Modal title</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <h1>Se inscreva!</h1>
             <br>
               <div class="mb-3">
-                <input type="text" class="form-control" id="InputFirstName" aria-describedby="firstName" placeholder="Nome" name="first_name">
-                <div id="firstNameHelp" class="form-text">Digite o seu primeiro nome.</div>
+                <input type="text" class="form-control" aria-describedby="firstName" placeholder="Nome" name="first_name">
+                <div class="form-text">Digite o seu primeiro nome.</div>
               </div>
               <div class="mb-3">
-                <input type="text" class="form-control" id="InputLastName" aria-describedby="lastName" placeholder="Sobrenome" name="last_name">
-                <div id="lastNameHelp" class="form-text">Digite o seu sobrenome nome.</div>
+                <input type="text" class="form-control" aria-describedby="lastName" placeholder="Sobrenome" name="last_name">
+                <div class="form-text">Digite o seu sobrenome nome.</div>
               </div>
               <div class="mb-3">
-                <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Endereço de e-mail" name="email">
-                <div id="emailHelp" class="form-text">Nós nunca compartilharemos o seu e-mail com terceiros.</div>
+                <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Endereço de e-mail" name="email">
+                <div class="form-text">Nós nunca compartilharemos o seu e-mail com terceiros.</div>
               </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Inscrever</button>
           </div>
         </div>
       </form>
+    </div>
+  </div>
+</section>
+
+<!-- Atualizar -->
+<section>
+  <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form action="/update/#" method="POST" id="update-form">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" >Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h1>Atualizar inscrito</h1>
+            <div class="mb-3">
+              <input type="text" class="form-control" aria-describedby="firstName" placeholder="Nome" name="first-name" value="1">
+              <div class="form-text">Digite o seu primeiro nome.</div>
+            </div>
+            <div class="mb-3">
+              <input type="text" class="form-control" aria-describedby="lastName" placeholder="Sobrenome" name="last-name" value="1">
+              <div class="form-text">Digite o seu sobrenome nome.</div>
+            </div>
+            <div class="mb-3">
+              <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Endereço de e-mail" name="email" value="1">
+              <div class="form-text">Nós nunca compartilharemos o seu e-mail com terceiros.</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Atualizar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Delete -->
+<section>
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Você tem certeza que deseja deletar esse registro?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <a href="/delete/#" class="btn btn-danger btn-mb" name="btn-delete">Deletar</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -134,7 +168,8 @@
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-<script>
+<!-- ADICIONAR ALERT -->
+<script type="text/javascript">
 
   var alertPlaceholder = document.getElementById('alertPlaceholder')
   var alertTrigger = document.getElementById('liveAlertBtn')
@@ -148,23 +183,64 @@
 
 </script>
 
-<script>
+<!-- SCRIPT DELETAR -->
+<script type="text/javascript">
 
-  var exampleModal = document.getElementById('subscribeModal')
-    exampleModal.addEventListener('show.bs.modal', function (event) {
-      var button = event.relatedTarget
-      //var recipient = button.getAttribute('data-bs-whatever')
-      //var modalTitle = exampleModal.querySelector('.modal-title')
-      //var modalBodyInput = exampleModal.querySelector('.modal-body input')
-      //modalTitle.textContent = 'New message to ' + recipient
-      //modalBodyInput.value = recipient
+  var deleteModal = document.getElementById('deleteModal')
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+
+    let button = event.relatedTarget
+    let id = button.getAttribute('data-id')
+    let modalTitle = deleteModal.querySelector('.modal-title')
+    modalTitle.textContent = 'Deletar registro ' + id
+    let btn_delete = deleteModal.querySelector('[name="btn-delete"]')
+    btn_delete.href = '/delete/' + id
+
   })
+
 </script>
 
-<script>
-  function chamar_alert(){
-    showAlert();
-  }
+<!-- SCRIPT UPDATE -->
+<script type="text/javascript">
+
+  var updateModal = document.getElementById('updateModal')
+  updateModal.addEventListener('show.bs.modal', function (event) {
+
+    let button = event.relatedTarget
+    let id = button.getAttribute('data-id')
+    let name = button.getAttribute('data-name')
+    let last_name = button.getAttribute('data-last-name')
+    let email = button.getAttribute('data-email')
+
+    let modalTitle = updateModal.querySelector('.modal-title')
+    modalTitle.textContent = 'Atualizar registro ' + id
+
+    let modalNameInput = updateModal.querySelector('[name="first-name"]')
+    let modalLastNameInput = updateModal.querySelector('[name="last-name"]')
+    let modalEmailInput = updateModal.querySelector('[name="email"]')
+    let btn_update = updateModal.querySelector('[name="btn-update"]')
+    let form  = document.getElementById('update-form');
+
+    modalNameInput.value = name
+    modalLastNameInput.value = last_name
+    modalEmailInput.value = email
+
+    form.action = '/update/' + id
+
+  })
+
+</script>
+
+<!-- SCRIPT INSCRIÇÃO -->
+<script type="text/javascript">
+
+  var subscribeModal = document.getElementById('subscribeModal')
+  subscribeModal.addEventListener('show.bs.modal', function (event) {
+    let button = event.relatedTarget
+    let recipient = button.getAttribute('data-bs-whatever')
+    let modalTitle = subscribeModal.querySelector('.modal-title')
+  })
+
 </script>
 
 {% endblock content %}

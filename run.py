@@ -120,8 +120,8 @@ def registro_pelo_id(id):
 def update(id: int):
 
     print(request.form.get('_method'))
-    first_name = request.form.get('first_name')
-    last_name = request.form.get('last_name')
+    first_name = request.form.get('first-name')
+    last_name = request.form.get('last-name')
     email = request.form.get('email')
 
     with Session(app.engine) as db_session:
