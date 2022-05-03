@@ -72,6 +72,8 @@ def signing():
             session.commit()
             sql = select(Subscribers)
             subscribers = session.exec(sql).fetchall()
+            print(f'All: {subscribers}')
+            flash(f'Registro criado com sucesso!', 'success')
             return redirect('/subscribers')
     except Exception as e:
         print(f'<<Exception>>: {e}')
