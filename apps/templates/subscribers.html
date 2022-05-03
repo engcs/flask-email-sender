@@ -5,7 +5,7 @@
 
 {% block content %}
 <!-- CONTENT -->
-<section class="container ">
+<section class="container">
 
   <div id="alertPlaceholder"></div>
 
@@ -81,11 +81,10 @@
       <form action="/signing" method="POST">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
+            <h5 class="modal-title">Inscrever registro</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <h1>Se inscreva!</h1>
             <br>
               <div class="mb-3">
                 <input type="text" class="form-control" aria-describedby="firstName" placeholder="Nome" name="first_name">
@@ -122,7 +121,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <h1>Atualizar inscrito</h1>
             <div class="mb-3">
               <input type="text" class="form-control" aria-describedby="firstName" placeholder="Nome" name="first-name" value="1">
               <div class="form-text">Digite o seu primeiro nome.</div>
@@ -156,17 +154,16 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <h1>Atualizar inscrito</h1>
           <div class="mb-3">
-            <input type="text" class="form-control" aria-describedby="firstName" placeholder="Nome" name="first-name" value="1">
+            <input readonly type="text" class="form-control" aria-describedby="firstName" placeholder="Nome" name="first-name" value="">
             <div class="form-text">Digite o seu primeiro nome.</div>
           </div>
           <div class="mb-3">
-            <input type="text" class="form-control" aria-describedby="lastName" placeholder="Sobrenome" name="last-name" value="1">
+            <input readonly type="text" class="form-control" aria-describedby="lastName" placeholder="Sobrenome" name="last-name" value="">
             <div class="form-text">Digite o seu sobrenome nome.</div>
           </div>
           <div class="mb-3">
-            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Endereço de e-mail" name="email" value="1">
+            <input readonly type="email" class="form-control" aria-describedby="emailHelp" placeholder="Endereço de e-mail" name="email" value="">
             <div class="form-text">Nós nunca compartilharemos o seu e-mail com terceiros.</div>
           </div>
         </div>
@@ -279,7 +276,7 @@
     let email = button.getAttribute('data-email')
 
     let modalTitle = viewModal.querySelector('.modal-title')
-    modalTitle.textContent = 'Atualizar registro ' + id
+    modalTitle.textContent = 'Visualizar registro ' + id
 
     let modalNameInput = viewModal.querySelector('[name="first-name"]')
     let modalLastNameInput = viewModal.querySelector('[name="last-name"]')
@@ -300,8 +297,6 @@
   var subscribeModal = document.getElementById('subscribeModal')
   subscribeModal.addEventListener('show.bs.modal', function (event) {
     let button = event.relatedTarget
-    let recipient = button.getAttribute('data-bs-whatever')
-    let modalTitle = subscribeModal.querySelector('.modal-title')
   })
 
 </script>

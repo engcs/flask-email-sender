@@ -93,18 +93,9 @@ def delete(id: int):
     except:
         return 'There was a error deleting your subs...'
 
+    print('Deleted subscriber:', subscriber)
+    flash(f'Registro deletado com sucesso!', 'danger')
     return redirect('/subscribers')
-
-
-@app.route('/update-form/<int:id>', methods=['GET'])
-def update_form(id: int):
-
-    with Session(app.engine) as session:
-        statement = select(Subscribers).where(Subscribers.id == id)
-        results = session.exec(statement)
-        subscriber = results.one()
-
-    return render_template('update-form.html', subscriber=subscriber)
 
 
 @app.route('/modal/<int:id>')
