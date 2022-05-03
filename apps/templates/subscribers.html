@@ -7,13 +7,12 @@
 <!-- CONTENT -->
 <section class="container ">
 
-  {{ message }}
-  <div id="liveAlertPlaceholder"></div>
+  <div id="alertPlaceholder"></div>
 
   <h1>Lista no banco de dados</h1>
   <br/>
 
-  <a href="/subscribe-form" class="btn btn-outline-success btn-sm">Inscrição</a>
+  <a href="" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#subscribeModal">Inscrição</a>
 
   <div id="barra_de_alerta"></div>
 
@@ -74,6 +73,7 @@
 {% endwith %}
 
 <!-- MODALS -->
+<!-- Delete -->
 <section>
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -93,7 +93,41 @@
       </div>
     </div>
   </div>
+</section>
 
+<!-- Delete -->
+<section>
+  <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form action="/signing" method="POST">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalToggleLabel">Modal 1</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h1>Se inscreva!</h1>
+            <br>
+              <div class="mb-3">
+                <input type="text" class="form-control" id="InputFirstName" aria-describedby="firstName" placeholder="Nome" name="first_name">
+                <div id="firstNameHelp" class="form-text">Digite o seu primeiro nome.</div>
+              </div>
+              <div class="mb-3">
+                <input type="text" class="form-control" id="InputLastName" aria-describedby="lastName" placeholder="Sobrenome" name="last_name">
+                <div id="lastNameHelp" class="form-text">Digite o seu sobrenome nome.</div>
+              </div>
+              <div class="mb-3">
+                <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Endereço de e-mail" name="email">
+                <div id="emailHelp" class="form-text">Nós nunca compartilharemos o seu e-mail com terceiros.</div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </section>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -102,7 +136,7 @@
 
 <script>
 
-  var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+  var alertPlaceholder = document.getElementById('alertPlaceholder')
   var alertTrigger = document.getElementById('liveAlertBtn')
 
   function bAlert(message, type) {
@@ -112,15 +146,19 @@
     return new bootstrap.Alert(wrapper)
   }
 
-  if (alertTrigger) {
-    alertTrigger.addEventListener('click', function () {
-      var janela = bAlert('Nice, you triggered this alert message!', 'success')
-        setTimeout(()=>{
-          janela.close()
-        }, 3000)
-    })
-  }
+</script>
 
+<script>
+
+  var exampleModal = document.getElementById('subscribeModal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget
+      //var recipient = button.getAttribute('data-bs-whatever')
+      //var modalTitle = exampleModal.querySelector('.modal-title')
+      //var modalBodyInput = exampleModal.querySelector('.modal-body input')
+      //modalTitle.textContent = 'New message to ' + recipient
+      //modalBodyInput.value = recipient
+  })
 </script>
 
 <script>

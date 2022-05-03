@@ -16,8 +16,6 @@ from flask import (
     redirect,
     render_template,
     request,
-    session,
-    jsonify,
 )
 from pydantic import validator
 from sqlmodel import Field, Session, SQLModel, create_engine, select
@@ -58,13 +56,8 @@ def about():
     return render_template('about.html', names=names)
 
 
-@app.route('/subscribe-form')
-def subscribe():
-    return render_template('subscribe-form.html')
-
-
-@app.route('/signed', methods=['POST'])
-def signed():
+@app.route('/signing', methods=['POST'])
+def signing():
 
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
@@ -79,7 +72,7 @@ def signed():
             session.commit()
             sql = select(Subscribers)
             subscribers = session.exec(sql).fetchall()
-            return render_template('signed.html', subscribers=subscribers)
+            return redirect('/subscribers')
     except Exception as e:
         print(f'<<Exception>>: {e}')
         return 'There was a error adding your subs...'
@@ -141,8 +134,6 @@ def update(id: int):
         db_session.refresh(subscriber)
         print('Updated subscriber:', subscriber)
         flash(f'Registro atualizado com sucesso!', 'success')
-        # session['message'] = 'meu teste'
-        # session.modified = True
 
     return redirect('/subscribers')
 
