@@ -1,20 +1,13 @@
 {% extends "base.html" %}
+
 {% block style %}{% endblock style%}
 {% block title %}Inscritos{% endblock title%}
 
 {% block content %}
-<!-- Conteúdo -->
+<!-- CONTENT -->
 <section class="container ">
 
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul class=flashes>
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
+  <div id="liveAlertPlaceholder"></div>
 
   <h1>Lista no banco de dados</h1>
   <br/>
@@ -61,40 +54,79 @@
       <img src="{{ url_for('static', filename='img/go-pro.svg') }}">
   </div>
 
-  <!-- Modal -->
-  <section>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            Você tem certeza que deseja deletar esse registro?
-            <input type="hidden" name="meu_id" id="meu_id" value="">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <a href="/delete/{{ id }}" class="btn btn-danger btn-mb" name="btn-delete" id="btn-delete">Delete</a>
-          </div>
+</section>
+
+<!-- FLASH MESSAGES -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      {% if subscriber %}
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          bAlert("{{ subscriber.name }}", "{{ category }}")
+        });
+        </script>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- MODALS -->
+<section>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Você tem certeza que deseja deletar esse registro?
+          <input type="hidden" name="meu_id" id="meu_id" value="">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <a href="/delete/{{ id }}" class="btn btn-danger btn-mb" name="btn-delete" id="btn-delete">Delete</a>
         </div>
       </div>
     </div>
-
-  </section>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
-  <script>
-    function chamar_alert(){
-      showAlert();
-    }
-  </script>
-
-  {% block script %}{% endblock %}
+  </div>
 
 </section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<script>
+
+  var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+  var alertTrigger = document.getElementById('liveAlertBtn')
+
+  function bAlert(message, type) {
+    var wrapper = document.createElement('div')
+    wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+    alertPlaceholder.append(wrapper)
+    return new bootstrap.Alert(wrapper)
+  }
+
+  if (alertTrigger) {
+    alertTrigger.addEventListener('click', function () {
+      var janela = bAlert('Nice, you triggered this alert message!', 'success')
+        setTimeout(()=>{
+          janela.close()
+        }, 3000)
+    })
+  }
+
+</script>
+
+<script>
+  function chamar_alert(){
+    showAlert();
+  }
+</script>
+
 {% endblock content %}
+
+{% block script %}{% endblock script%}

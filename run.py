@@ -9,7 +9,15 @@ from datetime import datetime
 from typing import Optional
 
 # 3d-party
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import (
+    Flask,
+    flash,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from pydantic import validator
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
@@ -80,12 +88,12 @@ def signed():
 def delete(id: int):
 
     try:
-        with Session(app.engine) as session:
+        with Session(app.engine) as db_session:
             statement = select(Subscribers).where(Subscribers.id == id)
-            results = session.exec(statement)
+            results = db_session.exec(statement)
             subscriber = results.one()
-            session.delete(subscriber)
-            session.commit()
+            db_session.delete(subscriber)
+            db_session.commit()
     except:
         return 'There was a error deleting your subs...'
 
@@ -120,28 +128,35 @@ def update(id: int):
     last_name = request.form.get('last_name')
     email = request.form.get('email')
 
-    with Session(app.engine) as session:
+    with Session(app.engine) as db_session:
         statement = select(Subscribers).where(Subscribers.id == id)
-        results = session.exec(statement)
+        results = db_session.exec(statement)
         subscriber = results.one()
         subscriber.name = first_name
         subscriber.last_name = last_name
         subscriber.email = email
-        session.add(subscriber)
-        session.commit()
-        session.refresh(subscriber)
+        db_session.add(subscriber)
+        db_session.commit()
+        db_session.refresh(subscriber)
         print('Updated subscriber:', subscriber)
+        flash(f'Updated subscriber', 'success')
+        session['message'] = 'meu teste'
+        # session.modified = True
 
-    flash('You were successfully logged in')
     return redirect('/subscribers')
 
 
 @app.route('/subscribers', methods=['GET'])
 def subscribers():
-    with Session(app.engine) as session:
+    message = ""
+    if 'message' in session:
+        message = session['message']
+    with Session(app.engine) as db_session:
         sql = select(Subscribers)
-        subscribers = session.exec(sql).fetchall()
-        return render_template('subscribers.html', subscribers=subscribers)
+        subscribers = db_session.exec(sql).fetchall()
+        return render_template(
+            'subscribers.html', subscribers=subscribers, message=message
+        )
 
 
 if __name__ == '__main__':
